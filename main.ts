@@ -17,11 +17,11 @@ const bootstrap = async () => {
     app.useGlobalPipes(new ValidationPipe())
 
     const configService = app.get(ConfigService)
-    const url = configService.get<string>('url')
+    const host = configService.get<string>('host')
     const port = configService.get<number>('port')
 
     await app.listen(port)
-    Logger.log(`🚀 Listening HTTP at ${url}`, 'HTTP')
+    Logger.log(`🚀 Listening HTTP at ${host}:${port}`, 'HTTP')
 }
 
 bootstrap()

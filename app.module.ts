@@ -9,12 +9,7 @@ import configuration from '@config'
 import * as controllers from '@controllers'
 import * as services from '@services'
 import {
-	Commitment,
-	CommitmentSchema,
-	Secret,
-	SecretSchema,
-	Wallet,
-	WalletSchema,
+
 } from '@schemas'
 
 @Module({
