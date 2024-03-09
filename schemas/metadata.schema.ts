@@ -7,7 +7,7 @@ export type MetadataDocument = HydratedDocument<Metadata>
 export type Device = {
     id: string
     info: string
-    deviceFactorX: BN
+    deviceFactorX: string
 }
 
 @Schema({ timestamps: true })
@@ -19,7 +19,7 @@ export class Metadata {
     devices: Device[]
 
     @Prop({ required: true })
-    recoveryFactorX: BN
+    recoveryFactorX: string
 }
 
 export const MetadataSchema = SchemaFactory.createForClass(Metadata)

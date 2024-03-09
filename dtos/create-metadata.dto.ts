@@ -10,5 +10,5 @@ export class CreateMetadataDto {
     devices: Device[]
 
     @IsNotEmpty()
-    recoveryFactorX: BN
+    recoveryFactorX: string
 }

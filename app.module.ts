@@ -2,13 +2,12 @@ import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { HttpModule } from '@nestjs/axios'
-
-import { GoogleVerifier } from '@verifiers/google.verifier'
-
 import configuration from '@config'
 import * as controllers from '@controllers'
 import * as services from '@services'
 import {
+	Metadata,
+	MetadataSchema,
 
 } from '@schemas'
 
@@ -28,13 +27,11 @@ import {
 			inject: [ConfigService],
 		}),
 		MongooseModule.forFeature([
-			{ name: Commitment.name, schema: CommitmentSchema },
-			{ name: Wallet.name, schema: WalletSchema },
-			{ name: Secret.name, schema: SecretSchema },
+			{ name: Metadata.name, schema: MetadataSchema },
 		]),
 		ConfigModule,
 	],
 	controllers: [].concat(Object.values(controllers)),
-	providers: [].concat(Object, Object.values(services), GoogleVerifier),
+	providers: [].concat(Object, Object.values(services)),
 })
 export class AppModule { }
