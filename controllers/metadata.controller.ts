@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { MetadataService } from '@services'
 import { CreateMetadataDto } from '@dtos'
+import { googleVerifier } from '@verifiers/google.verifier'
 
 @Controller()
 export class MetadataController {
@@ -22,6 +23,14 @@ export class MetadataController {
 
     @Post()
     async create(@Body() metadata: CreateMetadataDto) {
-        return this.metadataService.create(metadata)
+        const verify = await googleVerifier(metadata.idToken, metadata.owner)
+        if (!verify) {
+            throw new Error('Invalid token')
+        }
+        return this.metadataService.create({
+            owner: metadata.owner,
+            devices: metadata.devices,
+            recoveryFactorX: metadata.recoveryFactorX
+        })
     }
 }
