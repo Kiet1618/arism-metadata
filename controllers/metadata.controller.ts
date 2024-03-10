@@ -30,10 +30,10 @@ export class MetadataController {
         await this.metadataService.addDevice(user, device)
     }
 
-    @Post('/add-recovery-key')
+    @Post('/set-recovery-key')
     @UseGuards(VerifyGuard)
-    async addRecoveryKey(@Body() data: AddRecoveryKeyDto) {
+    async setRecoveryKey(@Body() data: AddRecoveryKeyDto) {
         const { user, recoveryKey } = data
-        await this.metadataService.addRecoveryKey(user, recoveryKey)
+        await this.metadataService.setRecoveryKey(user, recoveryKey)
     }
 }

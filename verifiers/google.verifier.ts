@@ -8,21 +8,18 @@ const TOKEN_INFO_GOOGLE_API = 'https://www.googleapis.com/oauth2/v3/tokeninfo'
 export class GoogleVerifier {
     constructor(private readonly httpService: HttpService) {}
 
-    async verify(idToken: string, verifierId: string): Promise<boolean> {
-        try {
-            const response = await get(
-                this.httpService,
-                TOKEN_INFO_GOOGLE_API,
-                {
-                    id_token: idToken,
-                }
-            )
+    async verify(id_token: string, user: string): Promise<boolean> {
+        const response = await get(
+            this.httpService,
+            TOKEN_INFO_GOOGLE_API +
+                '?id_token=' +
+                id_token.replace('Bearer ', '')
+        )
 
-            const { email } = response.data
-            if (email !== verifierId) return false
-        } catch {
-            return false
+        if (response.data.email === user) {
+            return true
         }
-        return true
+
+        return false
     }
 }
