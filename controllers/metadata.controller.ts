@@ -1,36 +1,39 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { MetadataService } from '@services'
-import { CreateMetadataDto } from '@dtos'
-import { googleVerifier } from '@verifiers/google.verifier'
+import { AddDeviceDto, AddRecoveryKeyDto } from '@dtos'
+import { VerifyGuard } from '@verifiers/verify.guard'
+import { Device, Metadata } from '@schemas'
 
 @Controller()
 export class MetadataController {
-    constructor(private readonly metadataService: MetadataService) { }
+    constructor(private readonly metadataService: MetadataService) {}
 
-    @Get()
-    async findAll() {
-        return this.metadataService.findAll()
+    @Get('/:user')
+    async find(@Param('user') user: string): Promise<Metadata> {
+        return this.metadataService.find(user)
     }
 
-    // find by owner
-
-    @Get("/:owner")
-    async findByOwner(@Param('owner') owner: string) {
-        return this.metadataService.findByOwner(owner)
+    @Get('/:user/devices')
+    async findDevices(@Param('user') user: string): Promise<Device[]> {
+        return this.metadataService.findDevices(user)
     }
 
-    // create metadata
+    @Get('/:user/recovery-key')
+    async findRecoveryKey(@Param('user') user: string): Promise<string> {
+        return this.metadataService.findRecoveryKey(user)
+    }
 
-    @Post()
-    async create(@Body() metadata: CreateMetadataDto) {
-        const verify = await googleVerifier(metadata.idToken, metadata.owner)
-        if (!verify) {
-            throw new Error('Invalid token')
-        }
-        return this.metadataService.create({
-            owner: metadata.owner,
-            devices: metadata.devices,
-            recoveryFactorX: metadata.recoveryFactorX
-        })
+    @Post('/add-device')
+    @UseGuards(VerifyGuard)
+    async addDevice(@Body() data: AddDeviceDto) {
+        const { user, device } = data
+        await this.metadataService.addDevice(user, device)
+    }
+
+    @Post('/add-recovery-key')
+    @UseGuards(VerifyGuard)
+    async addRecoveryKey(@Body() data: AddRecoveryKeyDto) {
+        const { user, recoveryKey } = data
+        await this.metadataService.addRecoveryKey(user, recoveryKey)
     }
 }

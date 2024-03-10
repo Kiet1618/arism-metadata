@@ -1,1 +1,2 @@
-export * from "./create-metadata.dto"
+export * from './addDevice.dto'
+export * from './addRecoveryKey.dto'
