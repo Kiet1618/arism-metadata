@@ -6,7 +6,6 @@ export type MetadataDocument = HydratedDocument<Metadata>
 export type Device = {
     id: string
     info: string
-    deviceFactorX: string
 }
 
 @Schema({ timestamps: true })
