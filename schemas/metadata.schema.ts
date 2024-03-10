@@ -12,7 +12,7 @@ export type Device = {
 @Schema({ timestamps: true })
 export class Metadata {
     @Prop({ required: true })
-    owner: string
+    user: string
 
     @Prop({ required: true })
     devices: Device[]

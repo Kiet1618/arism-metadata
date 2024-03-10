@@ -15,27 +15,27 @@ export class MetadataService {
         return createdMetadata.save()
     }
 
-    async addDevice(owner: string, device: Device): Promise<void> {
-        const devices = await this.find(owner).then((res) => res.devices)
+    async addDevice(user: string, device: Device): Promise<void> {
+        const devices = await this.find(user).then((res) => res.devices)
 
         devices.push(device)
 
-        this.metadataModel.findOneAndUpdate({ owner }, { devices }).exec()
+        this.metadataModel.findOneAndUpdate({ user }, { devices }).exec()
     }
 
-    async addRecoveryKey(owner: string, recoveryKey: string): Promise<void> {
-        this.metadataModel.findOneAndUpdate({ owner }, { recoveryKey }).exec()
+    async addRecoveryKey(user: string, recoveryKey: string): Promise<void> {
+        this.metadataModel.findOneAndUpdate({ user }, { recoveryKey }).exec()
     }
 
-    async find(owner: string): Promise<Metadata> {
-        return this.metadataModel.findOne({ owner }).exec()
+    async find(user: string): Promise<Metadata> {
+        return this.metadataModel.findOne({ user }).exec()
     }
 
-    async findDevices(owner: string): Promise<Device[]> {
-        return this.find(owner).then((res) => res.devices)
+    async findDevices(user: string): Promise<Device[]> {
+        return this.find(user).then((res) => res.devices)
     }
 
-    async findRecoveryKey(owner: string): Promise<string> {
-        return this.find(owner).then((res) => res.recoveryKey)
+    async findRecoveryKey(user: string): Promise<string> {
+        return this.find(user).then((res) => res.recoveryKey)
     }
 }

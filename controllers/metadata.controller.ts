@@ -8,32 +8,32 @@ import { Device, Metadata } from '@schemas'
 export class MetadataController {
     constructor(private readonly metadataService: MetadataService) {}
 
-    @Get('/:owner')
-    async find(@Param('owner') owner: string): Promise<Metadata> {
-        return this.metadataService.find(owner)
+    @Get('/:user')
+    async find(@Param('user') user: string): Promise<Metadata> {
+        return this.metadataService.find(user)
     }
 
-    @Get('/:owner/devices')
-    async findDevices(@Param('owner') owner: string): Promise<Device[]> {
-        return this.metadataService.findDevices(owner)
+    @Get('/:user/devices')
+    async findDevices(@Param('user') user: string): Promise<Device[]> {
+        return this.metadataService.findDevices(user)
     }
 
-    @Get('/:owner/recovery-key')
-    async findRecoveryKey(@Param('owner') owner: string): Promise<string> {
-        return this.metadataService.findRecoveryKey(owner)
+    @Get('/:user/recovery-key')
+    async findRecoveryKey(@Param('user') user: string): Promise<string> {
+        return this.metadataService.findRecoveryKey(user)
     }
 
     @Post('/add-device')
     @UseGuards(VerifyGuard)
     async addDevice(@Body() data: AddDeviceDto) {
-        const { owner, device } = data
-        await this.metadataService.addDevice(owner, device)
+        const { user, device } = data
+        await this.metadataService.addDevice(user, device)
     }
 
     @Post('/add-recovery-key')
     @UseGuards(VerifyGuard)
     async addRecoveryKey(@Body() data: AddRecoveryKeyDto) {
-        const { owner, recoveryKey } = data
-        await this.metadataService.addRecoveryKey(owner, recoveryKey)
+        const { user, recoveryKey } = data
+        await this.metadataService.addRecoveryKey(user, recoveryKey)
     }
 }
