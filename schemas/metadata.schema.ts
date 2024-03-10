@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument } from 'mongoose'
-import BN from 'bn.js'
 
 export type MetadataDocument = HydratedDocument<Metadata>
 
@@ -19,7 +18,7 @@ export class Metadata {
     devices: Device[]
 
     @Prop({ required: true })
-    recoveryFactorX: string
+    recoveryKey: string
 }
 
 export const MetadataSchema = SchemaFactory.createForClass(Metadata)

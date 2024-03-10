@@ -1,5 +1,7 @@
 import * as dotenv from 'dotenv'
-dotenv.config()
+
+const isProduction = process.env.NODE_ENV === 'production'
+dotenv.config({ path: isProduction ? '.env' : '.env.local' })
 
 const config = {
     host: process.env.HOST,
@@ -9,6 +11,4 @@ const config = {
     },
 }
 
-
-
-export default () => (config)
+export default () => config
