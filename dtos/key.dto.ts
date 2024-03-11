@@ -1,9 +1,9 @@
 import { IsNotEmpty } from 'class-validator'
 
-export class AddRecoveryKeyDto {
+export class KeyDto {
     @IsNotEmpty()
-    user: string
+    address: string
 
     @IsNotEmpty()
-    recoveryKey: string
+    privateFactorX: string
 }

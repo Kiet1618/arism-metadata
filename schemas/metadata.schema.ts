@@ -1,12 +1,8 @@
+import { DeviceDto, KeyDto } from '@dtos'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { HydratedDocument } from 'mongoose'
 
 export type MetadataDocument = HydratedDocument<Metadata>
-
-export type Device = {
-    id: string
-    info: string
-}
 
 @Schema({ timestamps: true })
 export class Metadata {
@@ -14,7 +10,10 @@ export class Metadata {
     user: string
 
     @Prop({ required: true })
-    devices: Device[]
+    devices: DeviceDto[]
+
+    @Prop({ required: true })
+    keys: KeyDto[]
 
     @Prop({ required: true })
     recoveryKey: string
