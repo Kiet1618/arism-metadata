@@ -10,9 +10,9 @@ export class VerifyGuard implements CanActivate {
         context: ExecutionContext
     ): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest()
-        const { idToken, user } = request.body
-        return this.googleVerifier.verify(idToken, user)
+        const user = request.body.user
+        const id_token = request.headers.authorization
 
-        return true
+        return this.googleVerifier.verify(id_token, user)
     }
 }
