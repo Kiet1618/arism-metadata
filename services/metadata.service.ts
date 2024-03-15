@@ -27,7 +27,12 @@ export class MetadataService {
     async addDevice(user: string, device: DeviceDto): Promise<void> {
         const devices = await this.find(user).then((res) => res.devices)
 
-        devices.push(device)
+        const index = devices.findIndex((d) => d.id === device.id)
+        if (index !== -1) {
+            devices[index] = device
+        } else {
+            devices.push(device)
+        }
 
         this.metadataModel.findOneAndUpdate({ user }, { devices }).exec()
     }
